@@ -36,4 +36,15 @@ describe 'GetGuid App' do
     guids=JSON.parse(last_response.body)
     guids.count.should==100
   end
+
+  it 'All the guids I get should all be unique' do
+    get '/guids.json?count=asdf'
+    last_response.should be_ok
+    guids=JSON.parse(last_response.body)
+    checked_guids = []
+    guids.each do |g|
+      checked_guids.index(g).should be_nil
+      checked_guids << g
+    end
+  end
 end
